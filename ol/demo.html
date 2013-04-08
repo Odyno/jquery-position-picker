@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+	<title>Google Maps Latitude and Longitude Picker jQuery plugin</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<link rel="stylesheet" type="text/css" href="css/demo.css"/>
+
+	<!-- Dependencies: JQuery and GMaps API should be loaded first -->
+	<script src="js/jquery-1.7.2.min.js"></script>
+	<script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+
+	<!-- CSS and JS for our code -->
+	<link rel="stylesheet" type="text/css" href="css/jquery-gmaps-latlon-picker.css"/>
+	<script src="js/jquery-gmaps-latlon-picker.js"></script>
+</head>
+<body>
+
+<form>
+
+	<h1>Google Maps Latitude and Longitude Picker</h1>
+
+	<div class="description">
+		<b>A jQuery plugin that creates a location picker on your webpage using Google Maps.</b>
+		<br/><br>
+		Supports multiple maps. Works on touchscreen. Easy to customize markup and CSS.
+		<br/><br>
+		This is a demo page; the newest live demo will always be <a href="http://www.wimagguc.com/projects/jquery-latitude-longitude-picker-gmaps/">here</a>.
+		<br/>
+		For the code, install instructions and to see how amazingly free it is, <a href="https://github.com/wimagguc/jquery-latitude-longitude-picker-gmaps">go to Github</a>.
+		<br/>
+		Also, you might find other interesting things on my blog at <a href="http://www.wimagguc.com/">wimagguc.com</a>.<br/>
+	</div>
+
+	<H2>The simplest form</H2>
+
+	<div class="description">
+		<ul>
+			<li>After every position change you'll have the fresh lattitude, longitude and zoom values in the hidden fields.</li>
+			<li>The "location_changed" event will also be fired with the gllLatlonPicker Node JQuery object as attribute.</li> 
+		</ul>
+		<br/><br/>
+		Move the marker, or double click on the map.
+	</div>
+
+	<fieldset class="gllpLatlonPicker">
+		<div class="gllpMap">Google Maps</div>
+		<input type="hidden" class="gllpLatitude"/>
+		<input type="hidden" class="gllpLongitude"/>
+		<input type="hidden" class="gllpZoom"/>
+		<input type="hidden" class="gllpLocationName"/>
+	</fieldset>
+
+	<div class="code">
+<pre>
+&lt;fieldset class="gllpLatlonPicker"&gt;
+	&lt;div class="gllpMap"&gt;Google Maps&lt;/div&gt;
+	&lt;input type="hidden" class="gllpLatitude"/&gt;
+	&lt;input type="hidden" class="gllpLongitude"/&gt;
+	&lt;input type="hidden" class="gllpZoom"/&gt;
+&lt;/fieldset&gt;
+</pre>
+	</div>
+
+	<H2>Simple form with a Google Maps search field and default values</H2>
+
+	<div class="description">
+		<ul>
+			<li>If the search has results, the first element will appear on the map (with the default zoom value 11)</li>
+			<li>You can set default latitude, longitude and zoom values in the hidden fields</li>
+			<li>If you don't give an ID to the map, the script generates one; feel free to use custom ID's though</li>
+		</ul>
+		<br/><br/>
+		Move the marker, or double click on the map. Search for cities, countries or landmark names.
+	</div>
+
+	<fieldset class="gllpLatlonPicker" id="custom_id">
+		<input type="text" class="gllpSearchField">
+		<input type="button" class="gllpSearchButton" value="search">
+		<br/><br/>
+		<div class="gllpMap">Google Maps</div>
+		<input type="hidden" class="gllpLatitude" value="60"/>
+		<input type="hidden" class="gllpLongitude" value="30"/>
+		<input type="hidden" class="gllpZoom" value="12"/>
+	</fieldset>
+
+	<div class="code">
+<pre>
+&lt;fieldset class="gllpLatlonPicker" id="custom_id"&gt;
+	&lt;input type="text" class="gllpSearchField"&gt;
+	&lt;input type="button" class="gllpSearchButton" value="search"&gt;
+	&lt;div class="gllpMap"&gt;Google Maps&lt;/div&gt;
+	&lt;input type="hidden" class="gllpLatitude" value="60"/&gt;
+	&lt;input type="hidden" class="gllpLongitude" value="30"/&gt;
+	&lt;input type="hidden" class="gllpZoom" value="12"/&gt;
+&lt;/fieldset&gt;
+</pre>
+	</div>
+
+	<H2>Reverse lookup: retrieves the location name and elevation once it's picked</H2>
+
+	<div class="description">
+		<ul>
+			<li>After the position change you'll have the location name in the gllpLocationName field.</li>
+			<li>If there is no value, the field will be emptied.</li> 
+			<li>The "location_changed" event will also be fired with the gllLatlonPicker Node JQuery object as attribute.</li> 
+			<li>The "location_name_changed" event will be fired after we received the name of the selected location.</li> 
+			<li>The "elevation_changed" event will be fired after we received the elevation value.</li> 
+		</ul>
+		<br/><br/>
+		Move the marker, or double click on the map.
+	</div>
+
+	<fieldset class="gllpLatlonPicker">
+		<div class="gllpMap">Google Maps</div>
+		<br/>
+		<input type="hidden" class="gllpLatitude"/>
+		<input type="hidden" class="gllpLongitude"/>
+		<input type="hidden" class="gllpZoom"/>
+		name: <input type="text" class="gllpLocationName" size=42/><br/>
+		elevation: <input type="text" class="gllpElevation" size=12/>m
+	</fieldset>
+
+	<div class="code">
+<pre>
+&lt;fieldset class="gllpLatlonPicker"&gt;
+	&lt;div class="gllpMap"&gt;Google Maps&lt;/div&gt;
+	&lt;br/&gt;
+	&lt;input type="hidden" class="gllpLatitude"/&gt;
+	&lt;input type="hidden" class="gllpLongitude"/&gt;
+	&lt;input type="hidden" class="gllpZoom"/&gt;
+	&lt;input type="text" class="gllpLocationName" size=42/&gt;
+&lt;/fieldset&gt;
+</pre>
+	</div>
+
+	<H2>Editable and selectable Latitude/Longitude values</H2>
+
+	<div class="description">
+		<ul>
+			<li>You can set your own latitude, longitude and zoom values. The map shows your data after pressing the update button.</li>
+			<li>You can still hide the Zoom field (or any other fields)</li>
+		</ul>
+		<br/><br/>
+		Move the marker, double click on the map, search, or set new values to interact.
+	</div>
+
+	<fieldset class="gllpLatlonPicker">
+		<input type="text" class="gllpSearchField">
+		<input type="button" class="gllpSearchButton" value="search">
+		<br/><br/>
+		<div class="gllpMap">Google Maps</div>
+		<br/>
+		lat/lon:
+			<input type="text" class="gllpLatitude" value="20"/>
+			/
+			<input type="text" class="gllpLongitude" value="20"/>
+		zoom: <input type="text" class="gllpZoom" value="3"/>
+		<input type="button" class="gllpUpdateButton" value="update map">
+		<br/>
+	</fieldset>
+
+	<div class="code">
+<pre>
+&lt;fieldset class="gllpLatlonPicker"&gt;
+	&lt;input type="text" class="gllpSearchField"&gt;
+	&lt;input type="button" class="gllpSearchButton" value="search"&gt;
+	&lt;br/&gt;&lt;br/&gt;
+	&lt;div class="gllpMap"&gt;Google Maps&lt;/div&gt;
+	&lt;br/&gt;
+	lat/lon:
+		&lt;input type="text" class="gllpLatitude" value="20"/&gt;
+		/
+		&lt;input type="text" class="gllpLongitude" value="20"/&gt;
+	zoom: &lt;input type="text" class="gllpZoom" value="3"/&gt;
+	&lt;input type="button" class="gllpUpdateButton" value="update map"&gt;
+&lt;/fieldset&gt;
+</pre>
+	</div>
+
+	<H2>Created By</H2>
+
+	<div class="description">
+		Richard Dancsi<br/><br/>
+		Blog: <a href="http://www.wimagguc.com/">http://www.wimagguc.com/</a>
+		<br/>
+		Twitter:<a href="http://twitter.com/wimagguc">wimagguc</a>
+		<br/>
+		Google+:<a href="https://plus.google.com/u/0/115939246085616544919">Richard Dancsi</a>
+		<br/><br/>
+		Used at <a href="http://divespy.com/">http://divespy.com/</a> 
+		<br/><br/>
+		Divespy is built by Zenfield <a href="http://zenfield.com/">http://zenfield.com/</a>
+	</div>
+
+</form>
+	
+</body>
+</html>
