@@ -46,7 +46,7 @@ Import jQuery and Google Maps:
 
 Import the plugin:
 <link rel="stylesheet" type="text/css" href="css/jquery-gmaps-latlon-picker.css"/>
-<script src="js/jquery-gmaps-latlon-picker.js"></script>
+<script src="js/jquery-latlon-picker.js"></script>
 
 Add a HTML markup:
 <fieldset class="gllpLatlonPicker">
