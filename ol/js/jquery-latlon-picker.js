@@ -8,11 +8,6 @@
  * by Alessandro Staniscia and Richard Dancsi.
  */
 
-// for ie9 doesn't support debug console >>>
-if (!window.console) window.console = {};
-if (!window.console.log) window.console.log = function () {
-};
-// ^^^
 
 
 
@@ -28,14 +23,71 @@ var OLLatLonPicker = (function () {
         latLongProj : new OpenLayers.Projection("EPSG:4326")
     } ;
 
-    var setField= function (lat,lng)
-    {
-        var location = new OpenLayers.LonLat(lng,lat).transform(_self.vars.map.getProjectionObject(),_self.vars.latLongProj);
-        $(_self.vars.cssID + ".gllpLongitude").val(location.lon);
-        $(_self.vars.cssID + ".gllpLatitude").val(location.lat);
+    var searchAddressOfPoint= function(lat,lng){
+        $.ajax({
+            url: 'http://maps.googleapis.com/maps/api/geocode/json?latlng='+lat+','+lng+'&sensor=false',
+            dataType: 'json'
+        }).error(function(data){
+                console.log(data);
+            }).done(function ( data ) {
+                if (data['status']=='OK'){
+                    setAddressField(data['results'][0].formatted_address);
+                }     else{
+                    setAddressField("");
+                }
+        });
     }
 
-    var setMarker= function (lat,lng)
+
+    var searchPointOfAddress = function (string, silent) {
+        $.ajax({
+            url: 'http://maps.googleapis.com/maps/api/geocode/json?sensor=false&address='+string,
+            dataType: 'json'
+        }).done(function ( data ) {
+                if (data['status']=='OK'){
+                lat=data['results'][0].geometry.location.lat;
+                lng=data['results'][0].geometry.location.lng;
+                var location = new OpenLayers.LonLat(lng,lat).transform(_self.vars.latLongProj,_self.vars.map.getProjectionObject());
+                setMarker(location.lat,location.lon,10);
+                setField(location.lat,location.lon,_self.vars.map.getZoom());
+                searchAddressOfPoint(lat,lng);
+                }
+        }).error(function(data){
+                console.log(data);
+        });
+    }
+
+    // for getting the elevation value for a position
+    var searchElevation = function (lat,lng) {
+        $.ajax({
+            url: 'http://maps.googleapis.com/maps/api/elevation/json?sensor=false&locations='+lat+','+lng,
+            dataType: 'json'
+        }).done(function ( data ) {
+                if (data['status']=='OK'){
+                    elevation=data['results'][0].elevation;
+                    $(_self.vars.cssID + ".gllpElevation").val(elevation.toFixed(3));
+                }
+            }).error(function(data){
+                console.log(data);
+            });
+    };
+
+
+    var setField= function (lat,lng,zoom)
+    {
+        var location = new OpenLayers.LonLat(lng,lat).transform(_self.vars.map.getProjectionObject(),_self.vars.latLongProj);
+        $(_self.vars.cssID + ".gllpLongitude").val(location.lon.toFixed(5));
+        $(_self.vars.cssID + ".gllpLatitude").val(location.lat.toFixed(5));
+        $(_self.vars.cssID + ".gllpZoom").val(zoom);
+        searchElevation(location.lat,location.lon);
+    }
+
+    var setAddressField= function (string)
+    {
+        $(_self.vars.cssID + ".gllpLocationName").val(string);
+    }
+
+    var setMarker= function (lat,lng,zoom)
     {
         _self.vars.markers.clearMarkers();
         var location = new OpenLayers.LonLat(lng,lat);
@@ -44,22 +96,22 @@ var OLLatLonPicker = (function () {
         var icon = new OpenLayers.Icon('http://www.openlayers.org/dev/img/marker.png',size,offset);
         _self.vars.markers.addMarker(new OpenLayers.Marker(location,icon.clone()));
         _self.vars.map.panTo(location);
-
         $(_self.vars.cssID).trigger("location_changed", $(_self.vars.cssID));
+        _self.vars.map.zoomTo(zoom);
     } ;
 
-    // For reverse geocoding
-    var getLocationName = function (position) {
-        console.log("getLocationName");
-        console.log(position);
+
+
+    var setDefault= function (lat,lng,zoom)
+    {
+        var location = new OpenLayers.LonLat(lng,lat).transform(_self.vars.latLongProj,_self.vars.map.getProjectionObject());
+        setMarker(location.lat,location.lon,zoom);
+        setField(location.lat,location.lon,zoom);
+        searchAddressOfPoint(location.lat,location.lon);
     };
 
-    // search function
-    var performSearch = function (string, silent) {
-        console.log("performSearch");
-        console.log(string);
-        console.log(silent);
-    };
+
+
 
 
 
@@ -82,7 +134,7 @@ var OLLatLonPicker = (function () {
             _self.vars.cssID = "#" + _self.vars.ID + " ";
             defLat = $(_self.vars.cssID + ".gllpLatitude").val() ? $(_self.vars.cssID + ".gllpLatitude").val() : 41.9;
             defLng = $(_self.vars.cssID + ".gllpLongitude").val() ? $(_self.vars.cssID + ".gllpLongitude").val() : 12.483333;
-            defZoom = $(_self.vars.cssID + ".gllpZoom").val() ? parseInt($(_self.vars.cssID + ".gllpZoom").val()) : 3;
+            defZoom = $(_self.vars.cssID + ".gllpZoom").val() ? parseInt($(_self.vars.cssID + ".gllpZoom").val()) : 10;
 
 
             _self.vars.map = new OpenLayers.Map( $(_self.vars.cssID + ".gllpMap").get(0), {
@@ -122,8 +174,10 @@ var OLLatLonPicker = (function () {
 
                 trigger: function(e) {
                     lonlat = _self.vars.map.getLonLatFromPixel(e.xy)
-                    setMarker(lonlat.lat,lonlat.lon);
-                    setField(lonlat.lat,lonlat.lon);
+                    setMarker(lonlat.lat,lonlat.lon,_self.vars.map.zoom);
+                    setField(lonlat.lat,lonlat.lon,_self.vars.map.zoom);
+                    var location = new OpenLayers.LonLat(lonlat.lon,lonlat.lat).transform(_self.vars.map.getProjectionObject(),_self.vars.latLongProj);
+                    searchAddressOfPoint(location.lat,location.lon);
                 }
 
             });
@@ -133,28 +187,28 @@ var OLLatLonPicker = (function () {
             _self.vars.map.addControl(clickControl);
             clickControl.activate();
 
-
-            setMarker(center.lat,center.lon);
-            setField(center.lat,center.lon);
+            setDefault(defLat,defLng,defZoom);
 
 
             // Update location and zoom values based on input field's value
             $(_self.vars.cssID + ".gllpUpdateButton").bind("click", function () {
                 var lat = $(_self.vars.cssID + ".gllpLatitude").val();
                 var lng = $(_self.vars.cssID + ".gllpLongitude").val();
+                var zoom = $(_self.vars.cssID + ".gllpZoom").val();
                 var location = new OpenLayers.LonLat(lng,lat).transform(_self.vars.latLongProj,_self.vars.map.getProjectionObject());
 
-                setMarker(location.lat,location.lon);
+                setMarker(location.lat,location.lon,zoom);
+                searchAddressOfPoint(center.lat,center.lon);
             });
 
             // Search function by search button
             $(_self.vars.cssID + ".gllpSearchButton").bind("click", function () {
-                performSearch($(_self.vars.cssID + ".gllpSearchField").val(), false);
+                searchPointOfAddress($(_self.vars.cssID + ".gllpSearchField").val(), false);
             });
 
             // Search function by gllp_perform_search listener
             $(document).bind("gllp_perform_search", function (event, object) {
-                performSearch($(object).attr('string'), true);
+                searchPointOfAddress($(object).attr('string'), true);
             });
 
         }
@@ -165,6 +219,12 @@ var OLLatLonPicker = (function () {
 });
 
 (function ($) {
+
+    if (!window.console) window.console = {};
+    if (!window.console.log) window.console.log = function () {
+    };
+
+
     $(document).ready(function () {
         $(".gllpLatlonPicker").each(function () {
             (new OLLatLonPicker()).init($(this));
@@ -176,3 +236,5 @@ var OLLatLonPicker = (function () {
     });
 
 })(jQuery);
+
+

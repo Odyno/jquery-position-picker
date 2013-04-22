@@ -1,40 +1,206 @@
 <!DOCTYPE html>
 <html xmlns='http://www.w3.org/1999/xhtml'>
 <head>
-    <title>Google Maps Latitude and Longitude Picker jQuery plugin</title>
+    <title>Latitude and Longitude Picker jQuery plugin</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
     <link rel="stylesheet" type="text/css" href="css/demo.css"/>
-    <link rel="stylesheet" href="css/ol2/theme/default/style.css" type="text/css" />
+    <link rel="stylesheet" href="css/ol2/theme/default/style.css" type="text/css"/>
+
+    <!-- Dependencies: JQuery and OpenLayer API should be loaded first -->
     <script src="js/jquery-1.7.2.min.js"></script>
-    <script src="js/OpenLayers.debug.js"></script>
+    <script src="js/OpenLayers.js"></script>
 
-
-
-    <link rel="stylesheet" type="text/css" href="css/jquery-gmaps-latlon-picker.css"/>
+    <!-- CSS and JS for our code -->
+    <link href="css/jquery-latlon-picker.css" rel="stylesheet" type="text/css"/>
     <script src="js/jquery-latlon-picker.js"></script>
-
 </head>
 <body>
-<form>
-    <fieldset class="gllpLatlonPicker">
-        <input type="text" class="gllpSearchField">
-        <input type="button" class="gllpSearchButton" value="search">
-        <br/><br/>
 
-        <div class="gllpMap" style="width: 500px; height: 250px; border: 1px solid red; ">OpenLayer</div>
+<form>
+    <h1>Latitude and Longitude picker</h1>
+    <p>A jQuery plugin that creates a location picker on your webpage using <b>OpenLayer</b> as map view and
+        geocoding with <b>Google Geocoding API</b>. Works on touchscreen. Easy to customize markup and CSS. This is a
+        demo page; the newest live demo will always be <a
+                href="http://www.staniscia.net/repository/lat-lon-picker/index.html">here</a>.
+        For the code, install instructions and to see how amazingly free it is, <a
+                href="https://github.com/Odyno/jquery-latitude-longitude-picker-gmaps">go to Github</a>.
+        Also, you might find other interesting things on my blog at <a href="http://www.staniscia.net/">www.staniscia.net</a>.
+    </p>
+
+    <p style="border: 1px solid red; background-color: #ffb174; margin: 10px 0; padding: 30px;">This project is fork of wonderful project of <a href="http://www.wimagguc.com/">Richard Dancsi</a> (<a
+            href="https://github.com/wimagguc/jquery-latitude-longitude-picker-gmaps">code</a>)</p>
+
+
+    <H2>The simplest form</H2>
+
+    <p>
+        When you click to set the position
+    <ul>
+        <li>After every position change you'll have the fresh lattitude, longitude and zoom values in the hidden
+            fields.
+        </li>
+        <li>The "location_changed" event will also be fired with the gllLatlonPicker Node JQuery object as attribute.
+        </li>
+    </ul>
+    </p>
+
+    <H3>Code</H3>
+    <pre class="prettyprint lang-html ">
+&lt;fieldset&nbsp;class=&quot;gllpLatlonPicker&quot;&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&nbsp;class=&quot;gllpMap&quot;&gt;&lt;/div&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;br/&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input&nbsp;type=&quot;hidden&quot;&nbsp;class=&quot;gllpLatitude&quot;/&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input&nbsp;type=&quot;hidden&quot;&nbsp;class=&quot;gllpLongitude&quot;/&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input&nbsp;type=&quot;hidden&quot;&nbsp;class=&quot;gllpZoom&quot;/&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input&nbsp;type=&quot;hidden&quot;&nbsp;class=&quot;gllpLocationName&quot;/&gt;
+&lt;/fieldset&gt;
+</pre>
+    <H3>Results</H3>
+    <fieldset class="gllpLatlonPicker">
+        <div class="gllpMap"></div>
         <br/>
-        lat/lon:
-        <input type="text" class="gllpLatitude" value="41.0"/>
-        /
-        <input type="text" class="gllpLongitude" value="12.0"/>
-        zoom: <input type="text" class="gllpZoom" value="3"/>
-        <input type="button" class="gllpUpdateButton" value="update map">
-        <br/>
+        <input type="hidden" class="gllpLatitude"/>
+        <input type="hidden" class="gllpLongitude"/>
+        <input type="hidden" class="gllpZoom"/>
+        <input type="hidden" class="gllpLocationName"/>
     </fieldset>
 
 
+    <H2>Simple form with a OpenLayer search field and default values</H2>
+
+    <p>
+        Click on the map to set the position, search for cities, countries or landmark names.
+    <ul>
+        <li>If the search has results, the first element will appear on the map (with the default zoom value 11)
+        </li>
+        <li>You can set default latitude, longitude and zoom values in the hidden fields</li>
+        <li>If you don't give an ID to the map, the script generates one; feel free to use custom ID's though</li>
+    </ul>
+    </p>
+    <H3>Code</H3>
+<pre class="prettyprint lang-html">
+&lt;fieldset&nbsp;class=&quot;gllpLatlonPicker&quot;&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input&nbsp;type=&quot;text&quot;&nbsp;class=&quot;gllpSearchField&quot;&nbsp;size=&quot;45&quot;&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input&nbsp;type=&quot;button&quot;&nbsp;class=&quot;gllpSearchButton&quot;&nbsp;value=&quot;Search&quot;/&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&nbsp;class=&quot;gllpMap&quot;&gt;&lt;/div&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input&nbsp;type=&quot;hidden&quot;&nbsp;class=&quot;gllpLatitude&quot;&nbsp;value=&quot;60&quot;/&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input&nbsp;type=&quot;hidden&quot;&nbsp;class=&quot;gllpLongitude&quot;&nbsp;value=&quot;30&quot;/&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input&nbsp;type=&quot;hidden&quot;&nbsp;class=&quot;gllpZoom&quot;&nbsp;value=&quot;10&quot;/&gt;
+&lt;/fieldset&gt;
+</pre>
+    <H3>Results</H3>
+    <fieldset class="gllpLatlonPicker">
+        <input type="text" class="gllpSearchField" size="45"><input type="button" class="gllpSearchButton"
+                                                                    value="Search"/>
+
+        <div class="gllpMap"></div>
+        <input type="hidden" class="gllpLatitude" value="60"/>
+        <input type="hidden" class="gllpLongitude" value="30"/>
+        <input type="hidden" class="gllpZoom" value="10"/>
+    </fieldset>
+
+
+    <H2>Reverse lookup: retrieves the location name and elevation once it's picked</H2>
+
+    <p>
+        Click on the map to set the position.
+    <ul>
+        <li>After the position change you'll have the location name in the gllpLocationName field.</li>
+        <li>If there is no value, the field will be emptied.</li>
+        <li>The "location_changed" event will also be fired with the gllLatlonPicker Node JQuery object as
+            attribute.
+        </li>
+        <li>The "location_name_changed" event will be fired after we received the name of the selected location.
+        </li>
+        <li>The "elevation_changed" event will be fired after we received the elevation value.</li>
+    </ul>
+    </p>
+
+    <H3>Code</H3>
+    <pre class="prettyprint lang-html">
+&lt;fieldset&nbsp;class=&quot;gllpLatlonPicker&quot;&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&nbsp;class=&quot;gllpMap&quot;&gt;&lt;/div&gt;&lt;br&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input&nbsp;type=&quot;hidden&quot;&nbsp;class=&quot;gllpLatitude&quot;/&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input&nbsp;type=&quot;hidden&quot;&nbsp;class=&quot;gllpLongitude&quot;/&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input&nbsp;type=&quot;hidden&quot;&nbsp;class=&quot;gllpZoom&quot;/&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;hr&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name&nbsp;of&nbsp;Position:&nbsp;&lt;input&nbsp;type=&quot;text&quot;&nbsp;class=&quot;gllpLocationName&quot;&nbsp;size=42/&gt;&lt;br/&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Elevation:&nbsp;&lt;input&nbsp;type=&quot;text&quot;&nbsp;class=&quot;gllpElevation&quot;&nbsp;size=12/&gt;m
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/fieldset&gt;
+    </pre>
+
+    <H3>Results</H3>
+    <fieldset class="gllpLatlonPicker">
+        <div class="gllpMap"></div><br>
+        <input type="hidden" class="gllpLatitude"/>
+        <input type="hidden" class="gllpLongitude"/>
+        <input type="hidden" class="gllpZoom"/>
+        <hr>
+        Name of Position: <input type="text" class="gllpLocationName" size=42/><br/>
+        Elevation: <input type="text" class="gllpElevation" size=12/>m
+    </fieldset>
+
+    <H2>Editable and selectable Latitude/Longitude values</H2>
+
+    <p>
+        Move the marker, click on the map, search, or set new values to interact.
+
+    <ul>
+        <li>You can set your own latitude, longitude and zoom values. The map shows your data after pressing the
+            update button.
+        </li>
+        <li>You can still hide the Zoom field (or any other fields)</li>
+    </ul>
+
+
+    </p>
+    <H3>Code</H3>
+<pre class="prettyprint lang-html">
+&lt;fieldset&nbsp;class=&quot;gllpLatlonPicker&quot;&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&nbsp;class=&quot;gllpMap&quot;&gt;&lt;/div&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;hr&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Search:&nbsp;&lt;input&nbsp;type=&quot;text&quot;&nbsp;class=&quot;gllpSearchField&quot;&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input&nbsp;type=&quot;button&quot;&nbsp;class=&quot;gllpSearchButton&quot;&nbsp;value=&quot;GO!&quot;&gt;&lt;br/&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;hr&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Latitude:&nbsp;&nbsp;&lt;input&nbsp;type=&quot;text&quot;&nbsp;class=&quot;gllpLatitude&quot;&nbsp;value=&quot;20&quot;/&gt;&lt;br/&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Longitude:&nbsp;&lt;input&nbsp;type=&quot;text&quot;&nbsp;class=&quot;gllpLongitude&quot;&nbsp;value=&quot;20&quot;/&gt;&lt;br/&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Zoom:&nbsp;&lt;input&nbsp;type=&quot;text&quot;&nbsp;class=&quot;gllpZoom&quot;&nbsp;value=&quot;3&quot;/&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input&nbsp;type=&quot;button&quot;&nbsp;class=&quot;gllpUpdateButton&quot;&nbsp;value=&quot;Update&nbsp;Map&quot;&nbsp;size=&quot;200px&quot;&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;hr&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name&nbsp;of&nbsp;Position:&nbsp;&lt;input&nbsp;type=&quot;text&quot;&nbsp;class=&quot;gllpLocationName&quot;&nbsp;size=42/&gt;&lt;br/&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Elevation:&nbsp;&lt;input&nbsp;type=&quot;text&quot;&nbsp;class=&quot;gllpElevation&quot;&nbsp;size=12/&gt;m
+&lt;/fieldset&gt;
+</pre>
+    <H3>Results</H3>
+    <fieldset class="gllpLatlonPicker">
+        <div class="gllpMap"></div>
+        <hr>
+        Search: <input type="text" class="gllpSearchField">
+        <input type="button" class="gllpSearchButton" value="GO!"><br/>
+        <hr>
+        Latitude: <input type="text" class="gllpLatitude" value="20"/><br/>
+        Longitude: <input type="text" class="gllpLongitude" value="20"/><br/>
+        Zoom: <input type="text" class="gllpZoom" value="3"/>
+        <input type="button" class="gllpUpdateButton" value="Update Map" size="200px">
+        <hr>
+        Name of Position: <input type="text" class="gllpLocationName" size=42/><br/>
+        Elevation: <input type="text" class="gllpElevation" size=12/>m
+    </fieldset>
+
+
+    <H2>Created By</H2>
+    <p>
+        <a href="http://www.staniscia.net"  target="_blank">Alessandro Staniscia</a><br/>
+        Sito: <a href="http://www.staniscia.net"  target="_blank">www.staniscia.net</a><br/>
+        linkedin: <a href="http://it.linkedin.com/in/stanisciaalessandro/"  target="_blank">http://it.linkedin.com/in/stanisciaalessandro/</a><br/>
+        Twitter: <a href="https://twitter.com/alexstani"  target="_blank">@alexstani</a><br/>
+        Code: <a href="https://github.com/Odyno/jquery-latitude-longitude-picker-gmaps" target="_blank">The Code</a><br/>
+        Demo: <a href="http://www.staniscia.net/repository/lat-lon-picker/index.html" target="_blank">Demo</a><br/>
+    </p>
 </form>
 
+<a href="https://github.com/Odyno/jquery-latitude-longitude-picker-gmaps"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub"></a>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
 </body>
 </html>
