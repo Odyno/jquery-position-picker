@@ -1,7 +1,7 @@
 jquery-position-picker
 ======================================
 
-A jQuery scripts that creates a location picker on your webpage using OpenLayer as map view and geocoding with Google Geocoding API. Works on touchscreen. Easy to customize markup and CSS.
+A jQuery plugin that creates a location picker on your webpage using OpenLayer as map view and geocoding with Google Geocoding API. Works on touchscreen. Easy to customize markup and CSS.
 This is a code repository, but if you want a demo page, the newest live demo will always be http://www.staniscia.net/repository/lat-lon-picker/
 Also, you might find other interesting things on my blog at http://www.staniscia.net
 
@@ -9,7 +9,7 @@ Also, you might find other interesting things on my blog at http://www.staniscia
 MORE INFO
 ---------
 
-When you click on Map to set the position you'll have:
+When you click on Map to set the position:
 - You'll have the fresh lattitude, longitude and zoom values in (optional hidden) fields
 - You can set your own latitude, longitude and zoom values.
 - You'll have the fresh the altitude values in (optional hidden) fields
@@ -64,7 +64,7 @@ LICENSE
 
 jquery-position-picker   version 0.1
 
-Copyright 2012  Alessandro Staniscia ( alessandro@staniscia.net )
+Copyright 2013  Alessandro Staniscia ( alessandro@staniscia.net )
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License, version 2, as

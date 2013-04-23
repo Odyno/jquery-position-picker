@@ -1,0 +1,39 @@
+{
+    "name": "position-picker",
+    "title": "jQuery Position Picker",
+    "description": "A jQuery plugin that creates a location picker on your webpage using OpenLayer as map view and geocoding with Google Geocoding API",
+    "keywords": [
+        "ui",
+        "location",
+         "picker",
+          "map",
+            "position"
+    ],
+    "version": "0.0.1",
+    "author": {
+        "name": "Alessandro Staniscia",
+        "url": "http://www.staniscia.net"
+    },
+    "maintainers": [
+        {
+            "name": "Alessandro Staniscia",
+            "email": "alessandro@staniscia.net",
+            "url": "http://www.staniscia.net"
+        }
+    ],
+    "licenses": [
+        {
+            "type": "GPLv2",
+            "url": "http://www.gnu.org/licenses/gpl-2.0.html"
+        }
+    ],
+    "bugs": "https://github.com/Odyno/jquery-position-picker/issues",
+    "homepage": "https://github.com/Odyno/jquery-position-picker",
+    "demo": "http://www.staniscia.net/repository/lat-lon-picker/",
+    "docs": "https://github.com/Odyno/jquery-position-picker",
+    "download": "https://github.com/Odyno/jquery-position-picker/archive/master.zip",
+    "dependencies": {
+        "jquery": ">=1.7.2",
+        "openlayers":">=2.12"
+    }
+}
