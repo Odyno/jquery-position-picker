@@ -222,7 +222,6 @@ var GMapsLatLonPicker = (function () {
 
 (function ($) {
 
-
     $(document).ready(function () {
         $(".gllpLatlonPicker").each(function () {
             (new GMapsLatLonPicker()).init($(this));

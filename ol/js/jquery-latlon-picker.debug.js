@@ -283,11 +283,33 @@ var OLLatLonPicker = (function () {
 
 
 (function ($) {
+
+    if (!window.console) window.console = {};
+    if (!window.console.log) window.console.log = function () {
+    };
+
+
     $(document).ready(function () {
         $(".gllpLatlonPicker").each(function () {
             (new OLLatLonPicker()).init($(this));
         });
     });
+
+    $(document).bind("location_changed", function (event, object) {
+        console.log(object);
+        console.log(event);
+    });
+
+    $(document).bind("location_name_changed", function (event, object) {
+        console.log(object);
+        console.log(event);
+    });
+
+    $(document).bind("elevation_changed", function (event, object) {
+        console.log(object);
+        console.log(event);
+    });
+
 })(jQuery);
 
 
