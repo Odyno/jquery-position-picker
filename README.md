@@ -98,3 +98,18 @@ Alessandro Staniscia
 - Linkedin: http://it.linkedin.com/in/stanisciaalessandro/
 
 This project is fork of wonderful project of Richard Dancsi ( https://github.com/wimagguc/jquery-latitude-longitude-picker-gmaps )
+
+
+CHANGELOG
+=====
+
+v0.0.2-SNAPSHOT
+------
+* Removed unused file
+* jQuery scope fix for all .ajax() function
+* Fix bug to load element with specified id to input field
+* Using jquery .find() function to load field content
+
+v0.0.1
+------
+Release
