@@ -1,7 +1,7 @@
 {
     "name": "position-picker",
     "title": "jQuery Position Picker",
-    "description": "A jQuery plugin that creates a location picker on your webpage using OpenLayer as map view and geocoding with Google Geocoding API",
+    "description": "A jQuery plugin that creates a location picker on your webpage  with a simple input form. It uses OpenLayer as map view and uses Google geocoding services to look for the address and elevation of selected point. All actions trigger a signals to hock the activity.",
     "keywords": [
         "ui",
         "location",
@@ -9,19 +9,12 @@
           "map",
             "position"
     ],
-    "version": "0.0.2-SNAPSHOT",
+    "version": "0.0.2",
     "author": {
         "name": "Alessandro Staniscia",
         "email": "alessandro@staniscia.net",
         "url": "http://www.staniscia.net"
     },
-    "maintainers": [
-        {
-            "name": "Alessandro Staniscia",
-            "email": "alessandro@staniscia.net",
-            "url": "http://www.staniscia.net"
-        }
-    ],
     "licenses": [
         {
             "type": "GPLv2",

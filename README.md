@@ -1,7 +1,7 @@
 jquery-position-picker
 ======================================
 
-A jQuery plugin that creates a location picker on your webpage using OpenLayer as map view and geocoding with Google Geocoding API. Works on touchscreen. Easy to customize markup and CSS.
+A jQuery plugin that creates a location picker on your webpage  with a simple input form. It uses OpenLayer as map view and uses Google geocoding services to look for the address and elevation of selected point. All actions trigger a signals to hock the activity. Works on touchscreen. Easy to customize markup and CSS.
 This is a code repository, but if you want a demo page, the newest live demo will always be http://www.staniscia.net/repository/lat-lon-picker/
 Also, you might find other interesting things on my blog at http://www.staniscia.net
 
@@ -97,13 +97,13 @@ Alessandro Staniscia
 - Twitter: https://twitter.com/alexstani
 - Linkedin: http://it.linkedin.com/in/stanisciaalessandro/
 
-This project is fork of wonderful project of Richard Dancsi ( https://github.com/wimagguc/jquery-latitude-longitude-picker-gmaps )
+This project is forked from wonderful project of Richard Dancsi ( https://github.com/wimagguc/jquery-latitude-longitude-picker-gmaps )
 
 
 CHANGELOG
 =====
 
-v0.0.2-SNAPSHOT
+v0.0.2
 ------
 * Removed unused file
 * jQuery scope fix for all .ajax() function
